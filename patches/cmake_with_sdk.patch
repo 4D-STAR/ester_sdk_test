@@ -1,0 +1,30 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index e7df270c..2840d4b4 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,6 +1,8 @@
+ cmake_minimum_required(VERSION 3.5)
+ project(ester VERSION 1.2.0 LANGUAGES C CXX Fortran)
+ 
++include(../FindSDK.cmake)
++
+ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
+     message(FATAL_ERROR "In-source builds not allowed.")
+ endif()
+@@ -19,6 +21,7 @@ set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_BINARY_DIR}/modules)
+ if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+     string(CONCAT CMAKE_Fortran_FLAGS
+         "-g -O3"
++        " -fallow-argument-mismatch -fallow-invalid-boz"
+         " -fno-align-commons -fdefault-real-8 -fdefault-double-8"
+         " -ffixed-line-length-none -O -w -fd-lines-as-comments")
+ elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
+@@ -133,7 +136,7 @@ add_library(ester SHARED
+     src/physics/xztrin21.F
+     src/physics/ZFS_interp_EOS5.F)
+ target_link_libraries(ester cesam freeeos opint
+-    ${LIBS} ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
++    ${LIBS} ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} cblas)
+ 
+ add_custom_target(star_cfg ALL
+     COMMAND sed -e 's,[@]extension[@],${EXT},g' < ${CMAKE_SOURCE_DIR}/config/star.cfg.in  > star.cfg

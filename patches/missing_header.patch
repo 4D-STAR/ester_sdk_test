@@ -1,0 +1,12 @@
+diff --git a/src/utils/stack.cpp b/src/utils/stack.cpp
+index d975b0f4..f9a94f1b 100644
+--- a/src/utils/stack.cpp
++++ b/src/utils/stack.cpp
+@@ -9,6 +9,7 @@
+ #include <sstream>
+ #include <unistd.h>
+ #include <iomanip>
++#include <cstdint>
+ 
+ inline std::string addr2str(uintptr_t addr) {
+     std::ostringstream stream;

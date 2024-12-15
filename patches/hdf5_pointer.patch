@@ -1,0 +1,25 @@
+diff --git a/src/star/star2d_class.cpp b/src/star/star2d_class.cpp
+index 8e0b30f8..fb8862b1 100644
+--- a/src/star/star2d_class.cpp
++++ b/src/star/star2d_class.cpp
+@@ -342,17 +342,17 @@ int star2d::hdf5_read(const char *input_file, int dim) {
+ #ifdef USE_HDF5
+     H5::Exception::dontPrint();
+ 
+-    H5::H5File file;
++    H5::H5File *file;
+     H5std_string buf;
+     try {
+-        file = H5::H5File(input_file, H5F_ACC_RDONLY);
++        file = new H5::H5File(input_file, H5F_ACC_RDONLY);
+     }
+     catch (H5::FileIException e) {
+         ester_err("Could not open file `%s'", input_file);
+     }
+     H5::Group star;
+     try {
+-        star = file.openGroup("/star");
++        star = file->openGroup("/star");
+     }
+     catch (H5::Exception) {
+         ester_err("Could not open '/star' in `%s'", input_file);
