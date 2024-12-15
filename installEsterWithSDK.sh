@@ -24,7 +24,7 @@ if [ ! -d "build" ]; then
   mkdir -p build
 fi
 # Apply patches
-git apply ../patches/cmake_width_sdk.patch
+git apply ../patches/cmake_with_sdk.patch
 git apply ../patches/hdf5_pointer.patch
 git apply ../patches/missing_header.patch
 
