@@ -31,11 +31,11 @@ git apply ../patches/missing_header.patch
 # Compile
 cd build
 rm -r CMake*
-cmake .. -DCMAKE_INSTALL_PREFIX=./install 
+cmake .. -DCMAKE_INSTALL_PREFIX=../../install 
 make
 make install
 
 # Test
-cd install/bin
+cd ../../install/bin
 ./star1d -noplot -M 5 -o M5.h5
 ./star_evol -noplot -i M5.h5 -nth 1 -age 0.5

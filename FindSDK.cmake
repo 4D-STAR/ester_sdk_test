@@ -1,5 +1,9 @@
 include(CMakePrintHelpers)
-message(STATUS "SDK PATH:" $ENV{FOURDSDK_ROOT})
+if(NOT DEFINED ENV{FOURDSDK_ROOT})
+  message( FATAL_ERROR "Path to 4DSTAR SDK was not set." )
+endif()
+#message(STATUS "SDK PATH:" $ENV{FOURDSDK_ROOT})
+
 
 set(CMAKE_PREFIX_PATH $ENV{FOURDSDK_ROOT}; $ENV{FOURDSDK_ROOT}/math-slots/default) #CBLAS is only available for default
 

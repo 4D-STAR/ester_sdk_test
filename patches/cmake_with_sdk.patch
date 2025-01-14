@@ -36,7 +36,7 @@ index e7df270c..d674e624 100644
 -    add_definitions(-DUSE_MKL)
 -endif()
 +#find_package(CBLAS CONFIG REQUIRED) # The SDK is missing cblas recipe!
-+set(CBLAS_LIBRARIES cblas)
++set(CBLAS_LIBRARIES $ENV{FOURDSDK_ROOT}/math-slots/default/lib/libcblas.so)
  find_package(LAPACK REQUIRED)
  find_package(PythonLibs REQUIRED)
  find_package(SWIG REQUIRED)
