@@ -17,7 +17,7 @@ source ${FOURDSDK_ROOT}/bin/fourdsdk_init.sh
 export CC=$FOURDSDK_ROOT/bin/gcc
 
 # Download Ester
-git clone git@github.com:ester-project/ester.git
+git clone https://github.com/ester-project/ester.git
 cd ester
 git checkout evolution
 if [ ! -d "build" ]; then
