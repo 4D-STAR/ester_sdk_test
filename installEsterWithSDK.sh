@@ -37,5 +37,5 @@ make install
 
 # Test
 cd install/bin
-./star1d -noplot -o mystar.h5
-./star2d -noplot -i mystar.h5 -Omega_bk 0.5
+./star1d -noplot -M 5 -o M5.h5
+./star_evol -noplot -i M5.h5 -nth 1 -age 0.5
