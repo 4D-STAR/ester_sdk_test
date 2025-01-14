@@ -14,7 +14,7 @@ fi
 [ -d "fourdsdk" ] || tar -xzvf $OUTPUT
 export FOURDSDK_ROOT=`realpath fourdsdk`
 source ${FOURDSDK_ROOT}/bin/fourdsdk_init.sh 
-#export CC=$FOURDSDK_ROOT/bin/gcc
+export CC=$FOURDSDK_ROOT/bin/gcc
 
 # Download Ester
 git clone git@github.com:ester-project/ester.git

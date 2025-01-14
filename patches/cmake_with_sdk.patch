@@ -1,5 +1,5 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e7df270c..2840d4b4 100644
+index e7df270c..d674e624 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
 @@ -1,6 +1,8 @@
@@ -11,20 +11,51 @@ index e7df270c..2840d4b4 100644
  if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
      message(FATAL_ERROR "In-source builds not allowed.")
  endif()
-@@ -19,6 +21,7 @@ set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_BINARY_DIR}/modules)
+@@ -18,7 +20,8 @@ set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_BINARY_DIR}/modules)
+ 
  if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
      string(CONCAT CMAKE_Fortran_FLAGS
-         "-g -O3"
-+        " -fallow-argument-mismatch -fallow-invalid-boz"
+-        "-g -O3"
++        "-g -O3 -fno-omit-frame-pointer"
++	" -fallow-argument-mismatch -fallow-invalid-boz"
          " -fno-align-commons -fdefault-real-8 -fdefault-double-8"
          " -ffixed-line-length-none -O -w -fd-lines-as-comments")
  elseif(CMAKE_Fortran_COMPILER_ID STREQUAL "Intel")
-@@ -133,7 +136,7 @@ add_library(ester SHARED
+@@ -30,14 +33,13 @@ else()
+     message(FATAL_ERROR "Unknown Fortran compiler: ${CMAKE_Fortran_COMPILER_ID}")
+ endif()
+ 
+-set(CMAKE_CXX_FLAGS "-g")
++set(CMAKE_CXX_FLAGS "-g -fno-omit-frame-pointer")
+ 
+ # Find libarries
++set(BLA_VENDOR Generic) # To ignore system installations of Openblas/ATLAS/MKL that cmake tends to prefer
+ find_package(BLAS REQUIRED)
+-if(BLAS_LIBRARIES MATCHES "mkl")
+-    message(STATUS "Using mkl BLAS implementation")
+-    add_definitions(-DUSE_MKL)
+-endif()
++#find_package(CBLAS CONFIG REQUIRED) # The SDK is missing cblas recipe!
++set(CBLAS_LIBRARIES cblas)
+ find_package(LAPACK REQUIRED)
+ find_package(PythonLibs REQUIRED)
+ find_package(SWIG REQUIRED)
+@@ -70,6 +72,7 @@ include_directories(src/include)
+ include_directories(src/graphics)
+ include_directories(${PYTHON_INCLUDE_DIRS})
+ set(LIBS "${LIBS};${PYTHON_LIBRARIES}")
++include(../FindNumPy.cmake)
+ 
+ add_definitions(-DWITH_CMAKE)
+ add_definitions(-DVERSION="${PROJECT_VERSION}")
+@@ -132,8 +135,8 @@ add_library(ester SHARED
+     src/physics/EOS5_xtrin.F
      src/physics/xztrin21.F
      src/physics/ZFS_interp_EOS5.F)
- target_link_libraries(ester cesam freeeos opint
+-target_link_libraries(ester cesam freeeos opint
 -    ${LIBS} ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES})
-+    ${LIBS} ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} cblas)
++target_link_libraries(ester cesam freeeos opint 
++	${LIBS} ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} ${CBLAS_LIBRARIES})
  
  add_custom_target(star_cfg ALL
      COMMAND sed -e 's,[@]extension[@],${EXT},g' < ${CMAKE_SOURCE_DIR}/config/star.cfg.in  > star.cfg
